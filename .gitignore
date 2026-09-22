@@ -27,9 +27,9 @@ scans/
 logs/
 
 # 截图和临时测试文件
-*.png
 *.jpg
 *.pdf
 *.txt.err
 wifi_*out.txt
 *.bat
+!logo.png
