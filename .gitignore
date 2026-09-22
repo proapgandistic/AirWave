@@ -1,0 +1,35 @@
+# AirWave .gitignore
+
+# Windows 计算节点 - Hashcat 程序
+hashcat-6.2.6/
+wordlists/
+*.zip
+
+# 临时文件
+*.tmp
+*.log
+__pycache__/
+*.pyc
+
+# 配置文件（包含敏感信息）
+config.json
+!config.example.json
+
+# 资产文件（抓包数据）
+assets/
+*.cap
+*.hc22000
+
+# 扫描记录
+scans/
+
+# 日志
+logs/
+
+# 截图和临时测试文件
+*.png
+*.jpg
+*.pdf
+*.txt.err
+wifi_*out.txt
+*.bat
