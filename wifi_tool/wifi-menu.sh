@@ -53,16 +53,15 @@ select_wlan_iface() {
 
         local iface_type
         iface_type=$(iw dev 2>/dev/null | awk -v iface="$iface" '
-            $0 ~ "Interface " iface {found=1; next}
+            $2 == iface {found=1; next}
             found && /type/ {print $2; exit}
         ')
 
-        # 只显示 managed 接口
-        [ "$iface_type" != "managed" ] && continue
+        # 显示所有接口（包括 monitor），用户自行判断
 
         local iface_addr
         iface_addr=$(iw dev 2>/dev/null | awk -v iface="$iface" '
-            $0 ~ "Interface " iface {found=1; next}
+            $2 == iface {found=1; next}
             found && /addr/ {print $2; exit}
         ')
 
@@ -73,7 +72,8 @@ select_wlan_iface() {
 
         # 当前连接状态
         local cur_ssid=""
-        cur_ssid=$(sudo wpa_cli -i "$iface" status 2>/dev/null | grep -oP '(?<=ssid=).*')
+        cur_ssid=$(sudo wpa_cli -i "$iface" status 2>/dev/null | grep '^ssid=' | cut -d= -f2-)
+        cur_ssid=$(printf "%b" "$cur_ssid" 2>/dev/null || echo "$cur_ssid")
 
         iface_array+=("$iface")
 
@@ -239,7 +239,8 @@ while true; do
     echo ""
 
     # 当前状态
-    CURRENT_SSID=$(sudo wpa_cli -i "$WLAN_IFACE" status 2>/dev/null | grep -oP '(?<=ssid=).*')
+    CURRENT_SSID=$(sudo wpa_cli -i "$WLAN_IFACE" status 2>/dev/null | grep '^ssid=' | cut -d= -f2-)
+    CURRENT_SSID=$(printf "%b" "$CURRENT_SSID" 2>/dev/null || echo "$CURRENT_SSID")
     CURRENT_IP=$(ip addr show "$WLAN_IFACE" 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     echo -e "  网卡: ${GREEN}$WLAN_IFACE${NC}"
     if [ -n "$CURRENT_SSID" ]; then

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=开启WiFi热点模式
+Comment=启动 Redteam_wifi 热点，户外手机直连控制
+Exec=/home/kali/Desktop/AirWave/wifi-ap.sh
+Icon=network-wireless
+Terminal=true
+Categories=Network;

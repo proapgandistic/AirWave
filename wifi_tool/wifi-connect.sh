@@ -10,7 +10,7 @@
 #    ./wifi-connect.sh disconnect            断开 WiFi
 # ============================================
 
-IFACE="wlan0"
+IFACE="${WLAN_IFACE:-wlan0}"
 WPA_CONF="/tmp/wpa_supplicant_${IFACE}.conf"
 WPA_PID="/tmp/wpa_supplicant_${IFACE}.pid"
 
@@ -38,7 +38,7 @@ check_iface() {
 cleanup() {
     info "清理旧连接..."
     sudo killall wpa_supplicant 2>/dev/null
-    sudo dhclient -r "$IFACE" 2>/dev/null
+    sudo dhcpcd -k "$IFACE" 2>/dev/null
     sudo ip link set "$IFACE" down 2>/dev/null
     sleep 1
 }
@@ -167,7 +167,7 @@ do_connect() {
 
     # 获取 IP
     info "通过 DHCP 获取 IP..."
-    sudo dhclient "$IFACE" 2>/dev/null
+    sudo dhcpcd "$IFACE" 2>/dev/null
     sleep 3
 
     local ip_addr
@@ -175,7 +175,7 @@ do_connect() {
 
     if [ -z "$ip_addr" ]; then
         warn "未获取到 IP，尝试再次获取..."
-        sudo dhclient -v "$IFACE" 2>&1 | tail -5
+        sudo dhcpcd -d "$IFACE" 2>&1 | tail -5
         sleep 2
         ip_addr=$(ip addr show "$IFACE" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     fi

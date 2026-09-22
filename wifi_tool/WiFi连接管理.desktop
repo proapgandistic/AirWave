@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=WiFi连接管理
+Comment=扫描、连接、管理 WiFi（交互式菜单）
+Exec=/home/kali/Desktop/AirWave/wifi-menu.sh
+Icon=network-wireless
+Terminal=true
+Categories=Network;

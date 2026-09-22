@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AirWave
+Comment=WiFi 安全测试工具（启动向导）
+Exec=/home/kali/Desktop/AirWave/airwave-launcher.sh
+Icon=utilities-terminal
+Terminal=true
+Categories=Network;Security;
